@@ -1,4 +1,5 @@
 const status = require('../utils/response-code');
+const auth = process.env.TOKEN;  
 
 
 const authUser = {
@@ -9,7 +10,7 @@ const authUser = {
 
 const middleware = (req,res,next)=>{
     const { token } = req.query;
-    if(token && token === '1234' ){
+    if(token && token === auth){
         req.user = {...authUser};
         next();
     }else{

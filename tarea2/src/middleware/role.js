@@ -9,14 +9,9 @@ const authUser = {
 
 function userRole(roles){
     return (req,res,next) => {
-        if(!req.user){
-            return res.sendStatus(status.UNAUTHENTICATED)
-        }
-
-        if(!roles.includes(req.user.role)){
+        if(!(roles.includes(authUser.role))){
             return res.sendStatus(status.FORBIDDEN)
         }
-
         next();
     }
 }
