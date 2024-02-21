@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
 const express = require('express'); //Importacion del modulo express
-const routes = require('./src/routes/routes'); //Importacion de rutas del archivo routes
 require('dotenv').config();
+const routes = require('./src/routes/routes'); //Importacion de rutas del archivo routes
+
 
 const app = express(); //Instancia para el manejo de rutas
 app.use(routes) //Uso de rutas del archivo routes

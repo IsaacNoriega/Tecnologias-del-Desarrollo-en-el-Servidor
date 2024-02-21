@@ -1,6 +1,7 @@
 const statusResponse = require('../utils/response-code'); // Importacion de estatus
 const User = require('../models/user');
-
+const hashPassword = require('../utils/hash-password');
+const jwt = require('jsonwebtoken');
 
 class userController{
 
@@ -27,12 +28,16 @@ class userController{
 
     //POST un nuevo usuario (admin)
     createUser(req,res){
-        const newUser = req.body;
-        User.create(newUser).then(response =>{
-            res.status(statusResponse.SUCCESS).json(response)
+           const data = {
+           name : req.body.name,
+           email : req.body.email,
+           password : hashPassword(req.body.password)
+        }
+        User.create(data).then(response =>{
+           res.status(statusResponse.SUCCESS).json(response)
         })
         .catch( e =>{
-            res.status(statusResponse.BAD_REQUEST).send('Something went wrong');
+           res.status(statusResponse.BAD_REQUEST).send('Something went wrong');
         }); 
     }
     
@@ -61,14 +66,15 @@ class userController{
 
 
     //POST de un nuevo usuario (Usuario)
-    register(req,res){
+    signup(req,res){
         const data = {
             name : req.body.name,
             email : req.body.email,
-            password : req.body.email
+            password : hashPassword(req.body.password)
         }
         User.create(data).then(response =>{
-            res.status(statusResponse.SUCCESS).send(`User ${data.name} creado con exito`);
+            delete response.password;
+            res.status(statusResponse.SUCCESS).send(response);
         })
         .catch(e=>{
             console.log('Error:' + e);
@@ -77,16 +83,24 @@ class userController{
     }
 
     //POST para verificar un usuario
-    login(req,res){
-        const email = req.body.email;
-        const password = req.body.password;
+    // login(req,res){
+    //     User.findOne({email : req.body.email,password : hashPassword(req.body.password)})
+    //     .then(response =>{
+    //             if(response){
+    //                 const data ={
+    //                     id: response._id,
+    //                     name: response.name,
+    //                     email: response.email,
+    //                     role : response.role
+    //                 }
+    //             const token = jwt.sign(data,process.env.TOKEN_KEY);
 
-        if(User.findOne(email)&& User.findOne(password)){
-            res.status(statusResponse.SUCCESS).send(`User encontrado con exito`);
-        }else{
-            res.status(statusResponse.BAD_REQUEST).send('Failed to find user');
-        }
-    }
+    //             }else{
+
+    //             }
+    //         }).catch()
+    //     }
+    
 }
 
 module.exports = new userController()

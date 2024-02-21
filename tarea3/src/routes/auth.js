@@ -7,7 +7,7 @@ router.get('',(req,res)=>{
     res.send('Estas en Auth')
 })
 
-router.post('/signup',userController.register);
-router.post('/login',userController.login);
+router.post('/signup',userController.signup);
+// router.post('/login',userController.login);
 
 module.exports = router;

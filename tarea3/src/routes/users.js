@@ -11,7 +11,7 @@ router.use('',authMiddleware,roleMiddleware(roles));
 router.get('/users',authMiddleware,userController.getUsers);
 router.get('/users/:id',userController.getUserById);
 router.post('/users',userController.createUser);
-router.put('/user/:id',userController.updateUser);
+router.put('/users/:id',userController.updateUser);
 router.delete('/users/:id',userController.deleteUser);
 
 module.exports= router;
