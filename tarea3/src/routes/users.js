@@ -5,10 +5,10 @@ const authMiddleware = require('../middleware/auth');
 const roleMiddleware = require('../middleware/role');
 
 const roles = ['user','admin','owner']
-router.use('',authMiddleware,roleMiddleware(roles));
+router.use('/users',authMiddleware,roleMiddleware(roles));
 
 //Rutas de usuario
-router.get('/users',authMiddleware,userController.getUsers);
+router.get('/users',userController.getUsers);
 router.get('/users/:id',userController.getUserById);
 router.post('/users',userController.createUser);
 router.put('/users/:id',userController.updateUser);
