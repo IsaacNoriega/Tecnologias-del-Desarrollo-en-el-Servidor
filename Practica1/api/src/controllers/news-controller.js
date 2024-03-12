@@ -5,7 +5,9 @@ const apiKey = process.env.API_KEY;
 class newsController{
 
     getNews(req,res){
-        axios.get(`https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`).
+        const { search } = req.query;
+        console.log(search)
+        axios.get(`https://newsapi.org/v2/top-headlines?country=${search}&apiKey=${apiKey}`).
         then( response => {
             res.render('news',{
                 data : response.data.articles
